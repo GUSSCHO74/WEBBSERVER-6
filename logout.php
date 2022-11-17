@@ -1,4 +1,4 @@
 <?php
-session_destroy();
-header("Location: uppgift5.html");
+    session_destroy();
+    header("Location: uppgift6.html");
 ?>

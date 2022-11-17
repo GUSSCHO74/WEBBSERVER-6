@@ -24,7 +24,7 @@
 			}
 			else {
 				echo "<h1>Inloggningen misslyckades!</h1><p>Fel kombination av användarnamn och lösenord!</p>";	
-				echo "<br><br><a href='uppgift5.html'>Tillbaka</a>";
+				echo "<br><br><a href='uppgift6.html'>Tillbaka</a>";
 			}
 		}
 	} 
