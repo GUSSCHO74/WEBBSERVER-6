@@ -1,34 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
-<body>
-<?php
+<?php 
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "webbserverprogrammering";
+	$dbname = "users";
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
 	$sql = "SELECT * FROM users";
-	$result = $conn->query($sql);	
+	$result = $conn->query($sql);
 
+	$login_success = false;
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
 			if($row["username"] == $_POST["username"] && $row["password"] == $_POST["password"]){
-				header("Location: checklogin.php");
-			}
-			else {
-				echo "<h1>Inloggningen misslyckades!</h1><p>Fel kombination av användarnamn och lösenord!</p>";	
-				echo "<br><br><a href='uppgift6.html'>Tillbaka</a>";
+				$login_success = true;
 			}
 		}
 	} 
+	else {
+		echo "0 results";
+	}
 	$conn->close();
+
+	echo `<form action="logout.php" method="post">
+	<input type="submit" name="logout" value="Logout" />
+	</form>`;
+
+
+	if($login_success) {
+		session_start();
+		$_SESSION["username"] = $_POST["username"];
+		echo "Lyckad inloggning!</br></br>";
+		echo "<b>Du är inloggad som " . $_SESSION["username"] . "</b>";
+	}
+	else {
+		echo "Inloggningen misslyckades!</br></br>";  
+		echo "<b>Du är inte inloggad.</br>"; 
+	}
+
+	if($login_success == true ){
+		$_SESSION["validateToken"] = true;
+		echo'
+		<form action="upload.php" method="post" enctype="multipart/form-data">
+		</br>Välj en fil:</br></br>
+		<input type="file" name="fileToUpload" id="fileToUpload" /></br></br>
+		<input type="submit" value="Ladda upp" name="submit" />
+		</form>';
+	}
+
 ?>
-</body>
-</html>
+<br><br>
+<a href="uppgift6.html">Tillbaka</a>
